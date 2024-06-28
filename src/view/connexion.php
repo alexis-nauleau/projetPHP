@@ -3,11 +3,55 @@ session_start();
 
 use App\Classes\User;
 
-include 'header.php'; ?>
+include 'header.php';
 
-<main>
+if (!empty($_POST)) {
+
+    if (!isset($_SESSION['compte'])) $_SESSION['compte'] = "";
+
+    $_SESSION['compte'] = $_POST['email'];
+
+    $errors = array();
+
+    $email = htmlspecialchars($_POST['email']);
+    $password = htmlspecialchars($_POST['password']);
+    $sql = "SELECT email, password FROM user WHERE email=:val"; // val  est un motif
+
+    $pdoStatement = $pdo->prepare($sql);
+    if ($pdoStatement) {
+        $pdoStatement->execute(['val' => $email]); // transforme le motif
+        $result = $pdoStatement->fetch();
+        // on veut comparer le mot de passe saisie depuis le formulaire avec
+        // le mot de passe haché récupéré depuis la base de données
+
+        if ($result) {
+            if (password_verify($password, $result->password)) {
+                echo "<div class=\"alert alert-success\" role=\"alert\">Connexion réussie</div>";
+
+                sleep(1);
+                header('location:index.php');
+            } else {
+                $errors['password'] = "Mot de passe invalide";
+            }
+        } else {
+            $errors['name'] = "Identifiant invalide";
+        }
+    }
+}
+
+?><main>
     <h1>Connexion </h1>
+    <?php if (!empty($errors)) : ?>
+        <div class="erreur">
+            <div class="alert alert-secondary" role="alert">
+                Vous n'avez pas rempli le formulaire correctement
+            </div>
 
+            <?php foreach ($errors as $error) : ?>
+                <div><?php echo "<div class=\"alert alert-danger\" role=\"alert\">$error</div>"; ?></div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
     <form action="" method="post" id="loginForm">
         <div class="form-floating mb-3">
@@ -21,7 +65,18 @@ include 'header.php'; ?>
         <button class="btn btn-primary login" type="submit">Se connecter</button>
     </form>
 
-    <!-- ajouter en dernier -->
+ 
+    <!-- if (!empty($_GET['code']) && isset($_SESSION['login_success']) && $_SESSION['login_success'] === true) {
+    $code = htmlspecialchars($_GET['code']);
+    if ($code === "123456") {
+        echo "<div class=\"alert alert-success\" role=\"alert\">Connexion réussie</div>";
+        header('Location: news.php');
+        exit();
+    } else {
+        $errors['code'] = "Code de vérification invalide";
+    }
+} -->
+
     <form action="" method="get" id="factorForm">
         <code-input name="code" size="6" value="" legend="Entrer le code à 6 chiffres généré par votre application"></code-input>
         <button type="submit">Envoyer</button>
