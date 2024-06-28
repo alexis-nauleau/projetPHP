@@ -16,3 +16,5 @@ Erreur normale: [ERROR] The database schema is not in sync with the current mapp
 php bin/doctrine orm:schema-tool:create 
 
 la base de donnée (news uniquement)se remplie toute seule avec le dossier insertion qui récupère des json
+
+Le soucis est dans connexion.php
