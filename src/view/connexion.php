@@ -53,30 +53,19 @@ if (!empty($_POST)) {
         </div>
     <?php endif; ?>
 
-    <form action="" method="post" id="loginForm">
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="email" name="email">
-            <label for="floatingInput">email</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
-            <label for="floatingPassword">Password</label>
-        </div>
-        <button class="btn btn-primary login" type="submit">Se connecter</button>
-    </form>
+        <form action="" method="post" id="loginForm">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="email" name="email">
+                <label for="floatingInput">email</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                <label for="floatingPassword">Password</label>
+            </div>
+            <button class="btn btn-primary login" type="submit">Se connecter</button>
+        </form>
 
- 
-    <!-- if (!empty($_GET['code']) && isset($_SESSION['login_success']) && $_SESSION['login_success'] === true) {
-    $code = htmlspecialchars($_GET['code']);
-    if ($code === "123456") {
-        echo "<div class=\"alert alert-success\" role=\"alert\">Connexion réussie</div>";
-        header('Location: news.php');
-        exit();
-    } else {
-        $errors['code'] = "Code de vérification invalide";
-    }
-} -->
-
+    <!-- ajouter en dernier -->
     <form action="" method="get" id="factorForm">
         <code-input name="code" size="6" value="" legend="Entrer le code à 6 chiffres généré par votre application"></code-input>
         <button type="submit">Envoyer</button>
@@ -94,4 +83,4 @@ if (!empty($_POST)) {
     });
 </script>
 
-<?php include 'footer.php'; ?>
+    <?php include 'footer.php'; ?>
